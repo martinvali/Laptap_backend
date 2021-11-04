@@ -5,7 +5,7 @@ const express = require("express");
 
 const app = express();
 
-const port = "";
+const PORT = process.env.PORT || 3000;
 
 app.post("/create-checkout-session", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
@@ -25,6 +25,6 @@ app.post("/create-checkout-session", async (req, res) => {
   res.redirect(303, session.url);
 });
 
-app.listen(3000, function () {
+app.listen(PORT, function () {
   console.log("LIstening on port 3000");
 });

@@ -12,7 +12,7 @@ const calculateOrderAmount = (quantity = 1) => {
 };
 app.get("/create-checkout-session", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(),
+    amount: calculateOrderAmount(1),
     currency: "eur",
     payment_method_types: [
       "giropay",

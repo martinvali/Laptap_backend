@@ -10,7 +10,7 @@ const price = 49;
 const calculateOrderAmount = (quantity = 1) => {
   return quantity * price;
 };
-app.post("/create-checkout-session", async (req, res) => {
+app.get("/create-checkout-session", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(),
     currency: "eur",

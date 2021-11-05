@@ -2,12 +2,16 @@ const stripe = require("stripe")(
   "sk_test_51JktFJH7IkGhuWpe6Emppfpum3BPubj2gB9qf9aQAvuKMPBSbKdxyTqTWwFdn2jh4Qo9ndrjfO073oUzRTJh4jCF0071aQ6keV"
 );
 const express = require("express");
-
+const cors = require("cors");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-app.get("/create-checkout-session", async (req, res) => {
+const corsOptions = {
+  origin: "https://laptap.netlify.app/",
+  optionsSuccessStatus: 200,
+};
+app.get("/create-checkout-session", cors(corsOptions), async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 5000,
     currency: "eur",

@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: "https://laptap.netlify.app/",
+  origin: "https://laptap.netlify.app",
   optionsSuccessStatus: 200,
 };
 app.get("/create-checkout-session", cors(corsOptions), async (req, res) => {

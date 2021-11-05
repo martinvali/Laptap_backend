@@ -6,13 +6,10 @@ const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-const price = 49;
-const calculateOrderAmount = (quantity = 1) => {
-  return quantity * price;
-};
+
 app.get("/create-checkout-session", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 49,
+    amount: 5000,
     currency: "eur",
     payment_method_types: [
       "giropay",

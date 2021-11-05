@@ -6,28 +6,29 @@ const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-
+const price = 49;
+const calculateOrderAmount = (quantity = 1) => {
+  return quantity * price;
+};
 app.post("/create-checkout-session", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-        price: "price_1Js9jXH7IkGhuWpe64ZvME16",
-        adjustable_quantity: {
-          enabled: true,
-          minimum: 1,
-          maximum: 10,
-        },
-        quantity: 1,
-      },
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(),
+    currency: "eur",
+    payment_method_types: [
+      "giropay",
+      "eps",
+      "p24",
+      "sofort",
+      "sepa_debit",
+      "card",
+      "bancontact",
+      "ideal",
     ],
-    payment_method_types: ["card"],
-    mode: "payment",
-    success_url: `https://www.delfi.ee/`,
-    cancel_url: `https://www.postimees.ee/`,
   });
 
-  res.redirect(303, session.url);
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
 });
 
 app.listen(PORT, function () {

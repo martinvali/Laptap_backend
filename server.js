@@ -15,16 +15,7 @@ app.get("/create-checkout-session", cors(corsOptions), async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 5000,
     currency: "eur",
-    payment_method_types: [
-      "giropay",
-      "eps",
-      "p24",
-      "sofort",
-      "sepa_debit",
-      "card",
-      "bancontact",
-      "ideal",
-    ],
+    payment_method_types: ["card"],
   });
 
   res.send({

@@ -29,7 +29,7 @@ app.post("/create-checkout-session", cors(corsOptions), async (req, res) => {
       clientSecret: paymentIntent.client_secret,
     });
   } catch (e) {
-    console.log(e);
+    res.send(e);
   }
 });
 

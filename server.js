@@ -18,7 +18,7 @@ const calculateAmount = (quantity) => {
 app.post("/create-checkout-session", cors(corsOptions), async (req, res) => {
   try {
     const { quantity } = req.body;
-
+    console.log(quantity);
     const paymentIntent = await stripe.paymentIntents.create({
       amount: calculateAmount(quantity),
       currency: "eur",
@@ -33,8 +33,10 @@ app.post("/create-checkout-session", cors(corsOptions), async (req, res) => {
   }
 });
 
-app.get("/after-payment", async (req, res) => {});
+app.get("/after-payment", async (req, res) => {
+  res.send("HEY");
+});
 
 app.listen(PORT, function () {
-  console.log("LIstening on port 3000");
+  console.log("Listening on port 3000");
 });

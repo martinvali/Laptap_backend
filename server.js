@@ -21,6 +21,7 @@ const calculateAmount = (quantity) => {
   return quantity * price;
 };
 app.post("/create-checkout-session", async (req, res) => {
+  res.send("HEY");
   try {
     const { quantity } = req.body;
     const paymentIntent = await stripe.paymentIntents.create({
@@ -38,10 +39,6 @@ app.post("/create-checkout-session", async (req, res) => {
   } catch (e) {
     res.send(e);
   }
-});
-
-app.get("/after-payment", async (req, res) => {
-  res.send("HEY");
 });
 
 app.listen(PORT, function () {

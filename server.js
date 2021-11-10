@@ -5,7 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const price = 39;
+const price = 39000;
 /*const corsOptions = {
   origin: "https://laptap.netlify.app",
   methods: "POST",

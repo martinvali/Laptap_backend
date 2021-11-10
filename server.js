@@ -29,6 +29,9 @@ app.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
     });
 
+    console.log(paymentIntent);
+    console.log(paymentIntent.client_secret);
+
     res.send({
       clientSecret: paymentIntent.client_secret,
     });

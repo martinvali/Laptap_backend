@@ -21,12 +21,11 @@ const calculateAmount = (quantity) => {
   return quantity * price;
 };
 app.post("/create-checkout-session", async (req, res) => {
- 
- 
   try {
     const { quantity } = req.body;
+    console.log(quantity);
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: calculateAmount(quantity),
+      amount: 39,
       currency: "eur",
       payment_method_types: ["card"],
     });

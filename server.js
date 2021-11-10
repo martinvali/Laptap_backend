@@ -4,7 +4,6 @@ const stripe = require("stripe")(
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 const price = 39;
 /*const corsOptions = {
@@ -16,7 +15,7 @@ const price = 39;
 */
 
 app.use(cors({ origin: true, credentials: true }));
-
+app.use(express.json());
 const calculateAmount = (quantity) => {
   return quantity * price;
 };

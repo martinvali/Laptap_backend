@@ -6,14 +6,20 @@ const cors = require("cors");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-
+const price = 39;
 const corsOptions = {
   origin: "https://laptap.netlify.app",
   optionsSuccessStatus: 200,
 };
-app.get("/create-checkout-session", cors(corsOptions), async (req, res) => {
+
+const calculateAmount = (quantity) => {
+  return quantity * price;
+};
+app.post("/create-checkout-session", cors(corsOptions), async (req, res) => {
+  const { quantity } = req.body;
+
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 5000,
+    amount: calculateAmount(quantity),
     currency: "eur",
     payment_method_types: ["card"],
   });
@@ -22,6 +28,8 @@ app.get("/create-checkout-session", cors(corsOptions), async (req, res) => {
     clientSecret: paymentIntent.client_secret,
   });
 });
+
+app.get("/after-payment", async (req, res) => {});
 
 app.listen(PORT, function () {
   console.log("LIstening on port 3000");

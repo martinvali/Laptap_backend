@@ -21,6 +21,7 @@ const calculateAmount = (quantity) => {
   return quantity * price;
 };
 app.post("/create-checkout-session", async (req, res) => {
+  console.log("Hey");
   try {
     const { quantity } = req.body;
     console.log(quantity);

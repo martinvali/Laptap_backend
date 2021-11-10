@@ -33,6 +33,8 @@ app.post("/create-checkout-session", async (req, res) => {
   console.log(paymentIntent.client_secret);
 
   res.send({
+    quantity,
+    amount,
     clientSecret: paymentIntent.client_secret,
   });
 });

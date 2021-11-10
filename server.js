@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3000;
 const price = 39;
 const corsOptions = {
   origin: "https://laptap.netlify.app",
+  methods: "POST",
+  allowedHeaders: ["Content-Type"],
   optionsSuccessStatus: 200,
 };
 

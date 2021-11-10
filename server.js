@@ -22,24 +22,21 @@ const calculateAmount = (quantity) => {
 };
 app.post("/create-checkout-session", async (req, res) => {
   console.log("Hey");
-  try {
-    const { quantity } = req.body;
-    console.log(quantity);
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 39,
-      currency: "eur",
-      payment_method_types: ["card"],
-    });
 
-    console.log(paymentIntent);
-    console.log(paymentIntent.client_secret);
+  const { quantity } = req.body;
+  console.log(quantity);
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 39,
+    currency: "eur",
+    payment_method_types: ["card"],
+  });
 
-    res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
-  } catch (e) {
-    res.send(e);
-  }
+  console.log(paymentIntent);
+  console.log(paymentIntent.client_secret);
+
+  res.send({
+    clientSecret: paymentIntent.client_secret,
+  });
 });
 
 app.listen(PORT, function () {

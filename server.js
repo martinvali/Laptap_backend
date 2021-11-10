@@ -22,7 +22,7 @@ const calculateAmount = (quantity) => {
 };
 app.post("/create-checkout-session", async (req, res) => {
   console.log("Hey");
-
+  console.log(req.body);
   const { quantity } = req.body;
   console.log(quantity);
   const paymentIntent = await stripe.paymentIntents.create({

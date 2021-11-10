@@ -36,7 +36,7 @@ app.post("/create-checkout-session", async (req, res) => {
   res.send({
     quantity,
     unitPrice: price / 1000,
-    amount,
+    amount: amount / 1000,
     clientSecret: paymentIntent.client_secret,
   });
 });

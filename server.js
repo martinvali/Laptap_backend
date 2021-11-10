@@ -16,17 +16,21 @@ const calculateAmount = (quantity) => {
   return quantity * price;
 };
 app.post("/create-checkout-session", cors(corsOptions), async (req, res) => {
-  const { quantity } = req.body;
+  try {
+    const { quantity } = req.body;
 
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateAmount(quantity),
-    currency: "eur",
-    payment_method_types: ["card"],
-  });
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateAmount(quantity),
+      currency: "eur",
+      payment_method_types: ["card"],
+    });
 
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 app.get("/after-payment", async (req, res) => {});

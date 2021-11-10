@@ -16,16 +16,15 @@ const price = 39000;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+
 const calculateAmount = (quantity) => {
   return quantity * price;
 };
+
 app.post("/create-checkout-session", async (req, res) => {
-  console.log("Hey");
-  console.log(req.body);
   const { quantity } = req.body;
-  console.log(quantity);
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 39,
+    amount: calculateAmount(quantity),
     currency: "eur",
     payment_method_types: ["card"],
   });

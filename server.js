@@ -5,7 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const price = 39000;
+const price = 3900;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -15,8 +15,8 @@ const calculateProductsPrice = (quantity) => {
 };
 
 const calculateTransportPrice = (transport) => {
-  if (transport === "tasuta") return 0;
-  else if (transport !== "tasuta") return 450;
+  if (transport === "tasuta" || transport === "") return 0;
+  else if (transport !== "tasuta" && transport !== "") return 450;
 };
 
 const calculateTotalPrice = (quantity, transport) => {
@@ -38,10 +38,10 @@ app.post("/payment-intent", async (req, res) => {
   res.send({
     quantity,
     id: paymentIntent.id,
-    unitPrice: price / 1000,
-    productsPrice: productsPrice / 1000,
-    transportPrice: transportPrice / 1000,
-    totalPrice: amount / 1000,
+    unitPrice: price / 100,
+    productsPrice: productsPrice / 100,
+    transportPrice: transportPrice / 100,
+    totalPrice: amount / 100,
     clientSecret: paymentIntent.client_secret,
   });
 });
@@ -60,10 +60,10 @@ app.post("/payment-intent/:id", async (req, res) => {
 
   res.send({
     quantity,
-    unitPrice: price / 1000,
-    productsPrice: productsPrice / 1000,
-    transportPrice: transportPrice / 1000,
-    totalPrice: amount / 1000,
+    unitPrice: price / 100,
+    productsPrice: productsPrice / 100,
+    transportPrice: transportPrice / 100,
+    totalPrice: amount / 100,
   });
 });
 

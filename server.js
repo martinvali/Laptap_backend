@@ -6,13 +6,6 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const price = 39000;
-/*const corsOptions = {
-  origin: "https://laptap.netlify.app",
-  methods: "POST",
-  allowedHeaders: ["Content-Type"],
-  optionsSuccessStatus: 200,
-};
-*/
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -21,8 +14,8 @@ const calculateAmount = (quantity) => {
   return quantity * price;
 };
 
-app.post("/create-checkout-session", async (req, res) => {
-  const { quantity } = req.body;
+app.post("/payment-intent", async (req, res) => {
+  const { quantity } = req.body || 1;
   const amount = calculateAmount(quantity);
   const paymentIntent = await stripe.paymentIntents.create({
     amount,
@@ -35,9 +28,26 @@ app.post("/create-checkout-session", async (req, res) => {
 
   res.send({
     quantity,
+    id: id,
     unitPrice: price / 1000,
     amount: amount / 1000,
     clientSecret: paymentIntent.client_secret,
+  });
+});
+
+app.post("/payment-intent/:id", async (req, res) => {
+  const id = req.params.id;
+  const { quantity } = req.body || 1;
+  const amount = calculateAmount(quantity);
+
+  const paymentIntent = await stripe.paymentIntents.update(id, {
+    amount: calculateAmount(quantity),
+  });
+
+  res.send({
+    quantity,
+    unitPrice: price / 1000,
+    amount: amount / 1000,
   });
 });
 

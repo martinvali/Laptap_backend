@@ -10,27 +10,38 @@ const price = 39000;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-const calculateAmount = (quantity) => {
+const calculateProductsPrice = (quantity) => {
   return quantity * price;
+};
+
+const calculateTransportPrice = (transport) => {
+  if (transport === "tasuta") return 0;
+  else if (transport !== "tasuta") return 450;
+};
+
+const calculateTotalPrice = (quantity, transport) => {
+  return calculateProductsPrice(quantity) + calculateTransportPrice(transport);
 };
 
 app.post("/payment-intent", async (req, res) => {
   const { quantity } = req.body || 1;
-  const amount = calculateAmount(quantity);
+  const { transport } = req.body || "10696";
+  const transportPrice = calculateTransportPrice(transport);
+  const productsPrice = calculateProductsPrice(quantity);
+  const amount = calculateTotalPrice(quantity, transport);
   const paymentIntent = await stripe.paymentIntents.create({
     amount,
     currency: "eur",
     payment_method_types: ["card"],
   });
 
-  console.log(paymentIntent);
-  console.log(paymentIntent.client_secret);
-
   res.send({
     quantity,
     id: paymentIntent.id,
     unitPrice: price / 1000,
-    amount: amount / 1000,
+    productsPrice: productsPrice / 1000,
+    transportPrice: transportPrice / 1000,
+    totalPrice: amount / 1000,
     clientSecret: paymentIntent.client_secret,
   });
 });
@@ -38,7 +49,10 @@ app.post("/payment-intent", async (req, res) => {
 app.post("/payment-intent/:id", async (req, res) => {
   const id = req.params.id;
   const { quantity } = req.body || 1;
-  const amount = calculateAmount(quantity);
+  const { transport } = req.body || "10696";
+  const transportPrice = calculateTransportPrice(transport);
+  const productsPrice = calculateProductsPrice(quantity);
+  const amount = calculateTotalPrice(quantity, transport);
 
   const paymentIntent = await stripe.paymentIntents.update(id, {
     amount: calculateAmount(quantity),
@@ -47,7 +61,9 @@ app.post("/payment-intent/:id", async (req, res) => {
   res.send({
     quantity,
     unitPrice: price / 1000,
-    amount: amount / 1000,
+    productsPrice: productsPrice / 1000,
+    transportPrice: transportPrice / 1000,
+    totalPrice: amount / 1000,
   });
 });
 

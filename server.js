@@ -28,7 +28,7 @@ app.post("/payment-intent", async (req, res) => {
 
   res.send({
     quantity,
-    id: id,
+    id: paymentIntent.id,
     unitPrice: price / 1000,
     amount: amount / 1000,
     clientSecret: paymentIntent.client_secret,

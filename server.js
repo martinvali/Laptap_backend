@@ -49,13 +49,13 @@ app.post("/payment-intent", async (req, res) => {
 app.post("/payment-intent/:id", async (req, res) => {
   const id = req.params.id;
   const { quantity } = req.body || 1;
-  const { transport } = req.body || "10696";
+  const { transport } = req.body || "";
   const transportPrice = calculateTransportPrice(transport);
   const productsPrice = calculateProductsPrice(quantity);
   const amount = calculateTotalPrice(quantity, transport);
 
   const paymentIntent = await stripe.paymentIntents.update(id, {
-    amount: calculateAmount(quantity),
+    amount: calculateTotalPrice(quantity, transport),
   });
 
   res.send({

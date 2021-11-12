@@ -77,7 +77,7 @@ app.get("/after-payment/", async (req, res) => {
     return;
   }
 
-  paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
+  paymentIntent = await stripe.paymentIntents.retrieve(clientSecret);
 
   switch (paymentIntent.status) {
     case "succeeded":

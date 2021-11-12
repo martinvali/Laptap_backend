@@ -93,7 +93,7 @@ app.post("/payment-intent/metadata/:id", async (req, res) => {
   */
 });
 
-app.get("/after-payment/", async (req, res) => {
+app.get("/after-payment", async (req, res) => {
   let {
     payment_intent: paymentIntent,
     payment_intent_client_secret: clientSecret,

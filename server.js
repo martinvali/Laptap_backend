@@ -67,6 +67,11 @@ app.post("/payment-intent/:id", async (req, res) => {
   });
 });
 
+app.get("/after-payment/", async (req, res) => {
+  console.log(req.params.payment_intent);
+  console.log(req.params.payment_intent_client_secret);
+});
+
 app.listen(PORT, function () {
   console.log("Listening on port 3000");
 });

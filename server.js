@@ -68,8 +68,31 @@ app.post("/payment-intent/:id", async (req, res) => {
 });
 
 app.get("/after-payment/", async (req, res) => {
-  console.log(req.query.payment_intent);
-  console.log(req.query.payment_intent_client_secret);
+  const {
+    payment_intent: paymentIntent,
+    payment_intent_client_secret: clientSecret,
+  } = req.query;
+
+  if (!clientSecret || !paymentIntent) {
+    return;
+  }
+
+  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+  switch (paymentIntent.status) {
+    case "succeeded":
+      res.send("Payment succeeded!");
+      break;
+    case "processing":
+      res.send("Your payment is processing.");
+      break;
+    case "requires_payment_method":
+      res.send("Your payment was not successful, please try again.");
+      break;
+    default:
+      res.send("Something went wrong.");
+      break;
+  }
 });
 
 app.listen(PORT, function () {

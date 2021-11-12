@@ -68,7 +68,7 @@ app.post("/payment-intent/:id", async (req, res) => {
 });
 
 app.get("/after-payment/", async (req, res) => {
-  const {
+  let {
     payment_intent: paymentIntent,
     payment_intent_client_secret: clientSecret,
   } = req.query;
@@ -77,7 +77,7 @@ app.get("/after-payment/", async (req, res) => {
     return;
   }
 
-  const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+  paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
 
   switch (paymentIntent.status) {
     case "succeeded":

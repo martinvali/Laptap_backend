@@ -83,6 +83,8 @@ app.post("/payment-intent/metadata/:id", async (req, res) => {
     },
     receipt_email: email,
   });
+
+  return;
 });
 
 app.get("/after-payment", async (req, res) => {

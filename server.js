@@ -74,23 +74,14 @@ app.post("/payment-intent/metadata/:id", async (req, res) => {
   const { email } = req.body || "none";
   const { phone } = req.body || "none";
 
-  console.log(fullName, transport, email, phone);
-  /* const transportPrice = calculateTransportPrice(transport);
-  const productsPrice = calculateProductsPrice(quantity);
-  const amount = calculateTotalPrice(quantity, transport);
-
-  const paymentIntent = await stripe.paymentIntents.update(id, {
-    amount: calculateTotalPrice(quantity, transport),
+  await stripe.paymentIntents.update(id, {
+    metadata: {
+      fullName,
+      transport,
+      email,
+      phone,
+    },
   });
-
-  res.send({
-    quantity,
-    unitPrice: price / 100,
-    productsPrice: productsPrice / 100,
-    transportPrice: transportPrice / 100,
-    totalPrice: amount / 100,
-  });
-  */
 });
 
 app.get("/after-payment", async (req, res) => {

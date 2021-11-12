@@ -46,7 +46,7 @@ app.post("/payment-intent", async (req, res) => {
   });
 });
 
-app.post("/payment-intent/:id", async (req, res) => {
+app.post("/payment-intent/prices/:id", async (req, res) => {
   const id = req.params.id;
   const { quantity } = req.body || 1;
   const { transport } = req.body || "";
@@ -65,6 +65,32 @@ app.post("/payment-intent/:id", async (req, res) => {
     transportPrice: transportPrice / 100,
     totalPrice: amount / 100,
   });
+});
+
+app.post("/payment-intent/metadata/:id", async (req, res) => {
+  const id = req.params.id;
+  const { fullName } = req.body || "none";
+  const { transport } = req.body || "none";
+  const { email } = req.body || "none";
+  const { phone } = req.body || "none";
+
+  console.log(fullName, transport, email, phone);
+  /* const transportPrice = calculateTransportPrice(transport);
+  const productsPrice = calculateProductsPrice(quantity);
+  const amount = calculateTotalPrice(quantity, transport);
+
+  const paymentIntent = await stripe.paymentIntents.update(id, {
+    amount: calculateTotalPrice(quantity, transport),
+  });
+
+  res.send({
+    quantity,
+    unitPrice: price / 100,
+    productsPrice: productsPrice / 100,
+    transportPrice: transportPrice / 100,
+    totalPrice: amount / 100,
+  });
+  */
 });
 
 app.get("/after-payment/", async (req, res) => {

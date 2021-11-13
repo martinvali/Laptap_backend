@@ -114,7 +114,7 @@ app.get("/after-payment", async (req, res) => {
 
   switch (paymentIntent.status) {
     case "succeeded":
-      res.render("payment", {
+      res.render("payment.ejs", {
         msg: "Makse õnnestus!",
         msgSecondary:
           "Teie e-posti saabub mõne minuti jooksul makset kinnitav kiri ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
@@ -122,7 +122,7 @@ app.get("/after-payment", async (req, res) => {
       });
       break;
     case "processing":
-      res.render("payment", {
+      res.render("payment.ejs", {
         msg: "Teie makset töödeldakse.",
         msgSecondary:
           "Palun värskendage lehte mõne minuti mõõdudes, et näha, kas makse on õnnestunud. Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega.",
@@ -130,7 +130,7 @@ app.get("/after-payment", async (req, res) => {
       });
       break;
     case "requires_payment_method":
-      res.render("payment", {
+      res.render("payment.ejs", {
         msg: "Makse ei õnnestunud. Palun proovige uuesti.",
         msgSecondary:
           "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",
@@ -138,7 +138,7 @@ app.get("/after-payment", async (req, res) => {
       });
       break;
     default:
-      res.send({
+      res.render("payment.ejs", {
         msg: "Midagi läks valesti. Palun proovige uuesti.",
         msgSecondary:
           "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",

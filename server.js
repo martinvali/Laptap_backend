@@ -1,6 +1,9 @@
 const stripe = require("stripe")(
   "sk_test_51JktFJH7IkGhuWpe6Emppfpum3BPubj2gB9qf9aQAvuKMPBSbKdxyTqTWwFdn2jh4Qo9ndrjfO073oUzRTJh4jCF0071aQ6keV"
 );
+
+let ejs = require("ejs");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -10,6 +13,9 @@ const price = 3900;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.static("public"));
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 const calculateProductsPrice = (quantity) => {
   return quantity * price;
@@ -107,7 +113,7 @@ app.get("/after-payment", async (req, res) => {
 
   switch (paymentIntent.status) {
     case "succeeded":
-      res.send({
+      res.render("payment", {
         msg: "Makse õnnestus!",
         msgSecondary:
           "Teie e-posti saabub mõne minuti jooksul makset kinnitav kiri ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
@@ -115,22 +121,26 @@ app.get("/after-payment", async (req, res) => {
       });
       break;
     case "processing":
-      res.send({
+      res.render("payment", {
         msg: "Teie makset töödeldakse.",
         msgSecondary:
-          "Palun värskendage lehte mõne minuti mõõdudes, et näha, kas makse on õnnestunud.",
+          "Palun värskendage lehte mõne minuti mõõdudes, et näha, kas makse on õnnestunud. Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega.",
         img: req.url + "wait.svg",
       });
       break;
     case "requires_payment_method":
-      res.send({
+      res.render("payment", {
         msg: "Makse ei õnnestunud. Palun proovige uuesti.",
+        msgSecondary:
+          "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",
         img: req.url + "error.svg",
       });
       break;
     default:
       res.send({
         msg: "Midagi läks valesti. Palun proovige uuesti.",
+        msgSecondary:
+          "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",
         img: req.url + "error.svg",
       });
       break;

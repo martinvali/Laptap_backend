@@ -7,13 +7,16 @@
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body {
   overflow-x: hidden;
+
   font-family: "Poppins", sans-serif;
   color: #343a40;
-  overflow-x: hidden;
+  overflow-y: hidden;
 }
 button,
 a {

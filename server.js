@@ -140,7 +140,7 @@ app.get("/after-payment", async (req, res) => {
         msg: "Midagi läks valesti. Palun proovige uuesti.",
         msgSecondary:
           "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",
-        img: req.url + "error.svg",
+        img: "error.svg",
       });
       break;
   }

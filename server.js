@@ -110,7 +110,7 @@ app.get("/after-payment", async (req, res) => {
 
   paymentIntent = await stripe.paymentIntents.retrieve(paymentIntent);
 
-  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Content-Type", "text/plain");
 
   switch (paymentIntent.status) {
     case "succeeded":

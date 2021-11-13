@@ -120,7 +120,7 @@ app.post("/payment-completed", async function (req, res) {
   if (event.type === "charge.succeeded") {
     console.log("succeeded");
   }
-  console.log(event.data.object.metadata);
+  console.log(event.data.object.metadata.phone);
 });
 
 app.listen(PORT, function () {

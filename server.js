@@ -101,16 +101,16 @@ app.get("/after-payment", async (req, res) => {
 
   switch (paymentIntent.status) {
     case "succeeded":
-      res.send("Payment succeeded!");
+      res.send(res.json("Payment succeeded!"));
       break;
     case "processing":
-      res.send("Your payment is processing.");
+      res.send(res.json("Your payment is processing."));
       break;
     case "requires_payment_method":
-      res.send("Your payment was not successful, please try again.");
+      res.send(res.json("Your payment was not successful, please try again."));
       break;
     default:
-      res.send("Something went wrong.");
+      res.send(res.json("Something went wrong."));
       break;
   }
 });

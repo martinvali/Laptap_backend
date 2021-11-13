@@ -115,6 +115,12 @@ app.get("/after-payment", async (req, res) => {
   }
 });
 
+app.post("/payment-completed", async function (req, res) {
+  const event = req.body;
+
+  console.log(event.metadata);
+});
+
 app.listen(PORT, function () {
   console.log("Listening on port 3000");
 });

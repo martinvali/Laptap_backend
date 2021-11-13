@@ -5,10 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teie makse</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="payment.css" />
   </head>
   <body>
-    <h1><%=msg %></h1>
+    <header>
+      <a href="https://laptap.netlify.app/"
+        ><img src="logo1.svg" alt="laptapi logo" class="logo"
+      /></a>
+    </header>
+    <main>
+      <h1 class="heading-primary"><%=msg%></h1>
 
-    <p><%=msgSecondary %></p>
+      <p class="secondary-info"><%= msgSecondary %></p>
+
+      <a class="btn-back" href="https://laptap.netlify.app/"
+        >Tagasi veebilehele</a
+      >
+      <img src="<%=img%>" alt="illustratsioon" class="illustration-img" />
+    </main>
   </body>
 </html>

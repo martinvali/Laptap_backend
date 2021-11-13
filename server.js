@@ -1,6 +1,7 @@
 const stripe = require("stripe")(
   "sk_test_51JktFJH7IkGhuWpe6Emppfpum3BPubj2gB9qf9aQAvuKMPBSbKdxyTqTWwFdn2jh4Qo9ndrjfO073oUzRTJh4jCF0071aQ6keV"
 );
+const path = require("path");
 
 let ejs = require("ejs");
 

@@ -9,6 +9,7 @@ const price = 3900;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 const calculateProductsPrice = (quantity) => {
   return quantity * price;
@@ -35,6 +36,8 @@ app.post("/payment-intent", async (req, res) => {
     payment_method_types: ["card"],
   });
 
+  res.setHeader("Content-Type", "application/json");
+
   res.send({
     quantity,
     id: paymentIntent.id,
@@ -57,6 +60,7 @@ app.post("/payment-intent/prices/:id", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.update(id, {
     amount: calculateTotalPrice(quantity, transport),
   });
+  res.setHeader("Content-Type", "application/json");
 
   res.send({
     quantity,
@@ -99,18 +103,36 @@ app.get("/after-payment", async (req, res) => {
 
   paymentIntent = await stripe.paymentIntents.retrieve(paymentIntent);
 
+  res.setHeader("Content-Type", "application/json");
+
   switch (paymentIntent.status) {
     case "succeeded":
-      res.send(res.json("Payment succeeded!"));
+      res.send({
+        msg: "Makse õnnestus!",
+        msgSecondary:
+          "Teie e-posti saabub mõne minuti jooksul makset kinnitav kiri ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
+        img: req.url + "success.svg",
+      });
       break;
     case "processing":
-      res.send(res.json("Your payment is processing."));
+      res.send({
+        msg: "Teie makset töödeldakse.",
+        msgSecondary:
+          "Palun värskendage lehte mõne minuti mõõdudes, et näha, kas makse on õnnestunud.",
+        img: req.url + "wait.svg",
+      });
       break;
     case "requires_payment_method":
-      res.send(res.json("Your payment was not successful, please try again."));
+      res.send({
+        msg: "Makse ei õnnestunud. Palun proovige uuesti.",
+        img: req.url + "error.svg",
+      });
       break;
     default:
-      res.send(res.json("Something went wrong."));
+      res.send({
+        msg: "Midagi läks valesti. Palun proovige uuesti.",
+        img: req.url + "error.svg",
+      });
       break;
   }
 });

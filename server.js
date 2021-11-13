@@ -118,7 +118,7 @@ app.get("/after-payment", async (req, res) => {
         msg: "Makse õnnestus!",
         msgSecondary:
           "Teie e-posti saabub mõne minuti jooksul makset kinnitav kiri ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
-        img: req.url + "success.svg",
+        img: "success.svg",
       });
       break;
     case "processing":
@@ -126,7 +126,7 @@ app.get("/after-payment", async (req, res) => {
         msg: "Teie makset töödeldakse.",
         msgSecondary:
           "Palun värskendage lehte mõne minuti mõõdudes, et näha, kas makse on õnnestunud. Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega.",
-        img: req.url + "wait.svg",
+        img: "wait.svg",
       });
       break;
     case "requires_payment_method":
@@ -134,7 +134,7 @@ app.get("/after-payment", async (req, res) => {
         msg: "Makse ei õnnestunud. Palun proovige uuesti.",
         msgSecondary:
           "Probleemi jätkumisel palume võtta ühendust meie klienditeenindusega",
-        img: req.url + "error.svg",
+        img: "error.svg",
       });
       break;
     default:

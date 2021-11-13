@@ -115,7 +115,7 @@ app.get("/after-payment", async (req, res) => {
       res.render("payment.ejs", {
         msg: "Makse õnnestus!",
         msgSecondary:
-          "Teie e-posti saabub mõne minuti jooksul makset kinnitav kiri ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
+          "Teie e-posti saabub mõne minuti jooksul makset kinnitav meil ning teiega võetakse kahe tööpäeva jooksul ühendust, et täpsustada tellimuse transpordiaega. Probleemide korral palume võtta ühendust meie klienditeenindusega.",
         img: "success.svg",
       });
       break;

@@ -117,7 +117,9 @@ app.get("/after-payment", async (req, res) => {
 
 app.post("/payment-completed", async function (req, res) {
   const event = req.body;
-
+  if (event.type === "charge.succeeded") {
+    console.log("succeeded");
+  }
   console.log(event.metadata);
 });
 

@@ -7,7 +7,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const price = 3900;
+const price = 4500;
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

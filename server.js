@@ -55,8 +55,9 @@ app.post("/discount-code/:id", async function (req, res) {
     const transportPrice = calculateTransportPrice(transport);
     const productsPrice = calculateProductsPrice(quantity);
     const discount = discountCode.discount;
+    const amount = calculateTotalPrice(quantity, transport, discount);
     const paymentIntent = await stripe.paymentIntents.update(id, {
-      amount: calculateTotalPrice(quantity, transport, discount),
+      amount,
     });
 
     res.send({

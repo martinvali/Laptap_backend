@@ -60,7 +60,7 @@ app.post("/discount-code/:id", async function (req, res) {
   if (discountCode.length === 1) {
     const discount = discountCode[0].discount;
     const amount = calculateTotalPrice(quantity, transport, discount);
-    await stripe.paymentintents.update(id, { metadata: { discount } });
+    stripe.paymentIntents.update(id, { metadata: { discount } });
     res.send({
       quantity,
       unitPrice: price / 100,
@@ -116,7 +116,7 @@ app.post("/payment-intent/prices/:id", async (req, res) => {
   const transportPrice = calculateTransportPrice(transport);
   const productsPrice = calculateProductsPrice(quantity);
   const currentDiscount =
-    (await stripe.paymentintents.retrieve(id).metadata.discount) || 0;
+    (await stripe.paymentIntents.retrieve(id).metadata.discount) || 0;
   const amount = calculateTotalPrice(quantity, transport, currentDiscount);
 
   await stripe.paymentIntents.update(id, {

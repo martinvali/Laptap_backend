@@ -5,10 +5,17 @@ let ejs = require("ejs");
 
 const express = require("express");
 const cors = require("cors");
+const { NONAME } = require("dns");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const price = 4500;
-
+const discountCodes = [
+  {
+    name: "SOBER22",
+    discount: 450,
+  },
+  {},
+];
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -25,9 +32,48 @@ const calculateTransportPrice = (transport) => {
   else if (transport !== "tasuta" && transport !== "") return 450;
 };
 
-const calculateTotalPrice = (quantity, transport) => {
-  return calculateProductsPrice(quantity) + calculateTransportPrice(transport);
+const calculateTotalPrice = (quantity, transport, discount = 0) => {
+  return (
+    calculateProductsPrice(quantity) +
+    calculateTransportPrice(transport) -
+    discount
+  );
 };
+
+app.post("/discount-code/:id", async function (req, res) {
+  const id = req.params.id;
+  const { code } = req.body || "none";
+  const { quantity } = req.body || 1;
+  const { transport } = req.body || "10696";
+
+  const discountCode = discountCodes.filter(function (codeObject) {
+    return codeObject.name === code;
+  });
+  res.setHeader("Content-Type", "application/json");
+
+  if (discountCode.length === 1) {
+    const transportPrice = calculateTransportPrice(transport);
+    const productsPrice = calculateProductsPrice(quantity);
+    const discount = discountcode.discount;
+    const paymentIntent = await stripe.paymentIntents.update(id, {
+      amount: calculateTotalPrice(quantity, transport, discount),
+    });
+    res.send({
+      quantity,
+      id: paymentIntent.id,
+      unitPrice: price / 100,
+      productsPrice: productsPrice / 100,
+      transportPrice: transportPrice / 100,
+      totalPrice: amount / 100,
+      discount: discount / 100,
+      clientSecret: paymentIntent.client_secret,
+    });
+  } else {
+    res.send({
+      discount: "none",
+    });
+  }
+});
 
 app.post("/payment-intent", async (req, res) => {
   const { quantity } = req.body || 1;

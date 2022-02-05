@@ -115,8 +115,7 @@ app.post("/payment-intent/prices/:id", async (req, res) => {
   const { transport } = req.body || "";
   const transportPrice = calculateTransportPrice(transport);
   const productsPrice = calculateProductsPrice(quantity);
-  const currentDiscount =
-    (await stripe.paymentIntents.retrieve(id).metadata.discount) || 0;
+  console.log(await stripe.paymentIntents.retrieve(id));
   const amount = calculateTotalPrice(quantity, transport, currentDiscount);
 
   await stripe.paymentIntents.update(id, {

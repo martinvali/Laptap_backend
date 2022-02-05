@@ -51,15 +51,14 @@ app.post("/discount-code/:id", async function (req, res) {
   });
   res.setHeader("Content-Type", "application/json");
 
+  const transportPrice = calculateTransportPrice(transport);
+  const productsPrice = calculateProductsPrice(quantity);
+  const discount = discountCode[0].discount;
+  const amount = calculateTotalPrice(quantity, transport, discount);
+  const paymentIntent = await stripe.paymentIntents.update(id, {
+    amount,
+  });
   if (discountCode.length === 1) {
-    const transportPrice = calculateTransportPrice(transport);
-    const productsPrice = calculateProductsPrice(quantity);
-    const discount = discountCode[0].discount;
-    const amount = calculateTotalPrice(quantity, transport, discount);
-    const paymentIntent = await stripe.paymentIntents.update(id, {
-      amount,
-    });
-
     res.send({
       quantity,
       unitPrice: price / 100,

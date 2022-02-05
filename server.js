@@ -62,7 +62,6 @@ app.post("/discount-code/:id", async function (req, res) {
 
     res.send({
       quantity,
-      id: paymentIntent.id,
       unitPrice: price / 100,
       productsPrice: productsPrice / 100,
       transportPrice: transportPrice / 100,
@@ -73,6 +72,12 @@ app.post("/discount-code/:id", async function (req, res) {
   } else {
     res.send({
       discount: "none",
+      quantity,
+      unitPrice: price / 100,
+      productsPrice: productsPrice / 100,
+      transportPrice: transportPrice / 100,
+      totalPrice: amount / 100,
+      clientSecret: paymentIntent.client_secret,
     });
   }
 });

@@ -10,11 +10,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const price = 4500;
 const discountCodes = [
-  {
+  /*{
     name: "SOBER22",
     discount: 450,
   },
-  {},
+  */
 ];
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

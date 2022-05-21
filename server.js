@@ -8,7 +8,7 @@ const cors = require("cors");
 const { NONAME } = require("dns");
 const app = express();
 const PORT = process.env.PORT || 3000;
-const price = 4500;
+const price = 4000;
 const discountCodes = [
   /*{
     name: "SOBER22",

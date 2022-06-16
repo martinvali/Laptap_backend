@@ -1,4 +1,4 @@
-const stripe = require("stripe")(process.env.StripeKey);
+//const stripe = require("stripe")(process.env.StripeKey);
 const path = require("path");
 
 let ejs = require("ejs");
@@ -54,13 +54,14 @@ app.post("/discount-code/:id", async function (req, res) {
   const transportPrice = calculateTransportPrice(transport);
   const productsPrice = calculateProductsPrice(quantity);
   const amount = calculateTotalPrice(quantity, transport);
-  const paymentIntent = await stripe.paymentIntents.update(id, {
+  /*const paymentIntent = await stripe.paymentIntents.update(id, {
     amount,
   });
+  */
   if (discountCode.length === 1) {
     const discount = discountCode[0].discount;
     const amount = calculateTotalPrice(quantity, transport, discount);
-    stripe.paymentIntents.update(id, { metadata: { discount }, amount });
+    //  stripe.paymentIntents.update(id, { metadata: { discount }, amount });
     res.send({
       quantity,
       unitPrice: price / 100,
@@ -80,7 +81,7 @@ app.post("/discount-code/:id", async function (req, res) {
       totalPrice: amount / 100,
       clientSecret: paymentIntent.client_secret,
     });
-    await stripe.paymentIntents.update(id, { metadata: { discount: 0 } });
+    //   await stripe.paymentIntents.update(id, { metadata: { discount: 0 } });
   }
 });
 
@@ -115,7 +116,7 @@ app.post("/payment-intent/prices/:id", async (req, res) => {
   const { transport } = req.body || "";
   const transportPrice = calculateTransportPrice(transport);
   const productsPrice = calculateProductsPrice(quantity);
-  const currentIntent = await stripe.paymentIntents.retrieve(id);
+  // const currentIntent = await stripe.paymentIntents.retrieve(id);
   const currentDiscount = Number(currentIntent.metadata.discount) || 0;
   const amount = calculateTotalPrice(quantity, transport, currentDiscount);
 
@@ -140,7 +141,7 @@ app.post("/payment-intent/metadata/:id", async (req, res) => {
   const { email } = req.body || "none";
   const { phone } = req.body || "none";
 
-  await stripe.paymentIntents.update(id, {
+  /* await stripe.paymentIntents.update(id, {
     metadata: {
       fullName,
       transport,
@@ -148,7 +149,7 @@ app.post("/payment-intent/metadata/:id", async (req, res) => {
       phone,
     },
   });
-
+*/
   return;
 });
 
@@ -162,7 +163,7 @@ app.get("/after-payment", async (req, res) => {
     return;
   }
 
-  paymentIntent = await stripe.paymentIntents.retrieve(paymentIntent);
+  // paymentIntent = await stripe.paymentIntents.retrieve(paymentIntent);
 
   switch (paymentIntent.status) {
     case "succeeded":
